@@ -1,74 +1,57 @@
-# Selenium-Docker-Scraper
+# Web Scraper API
 
-This is a python project that uses selenium and docker to scrape data from the internet.
+This is a Flask API for extracting text from PDF and HTML files. It uses Selenium for scraping dynamic HTML and PyPDF2 for reading PDF files.
 
-### Prerequisites
+## Prerequisites
 
-- Python 3.10
 - Docker
+- Docker Compose
 
-### Installation
+## Usage
 
-1. Clone the repository
-
-```
-git clone https://github.com/jacobsomer/selenium-docker-scraper.git
-```
-
-2. Install the python dependencies.
+1. Clone the repository and navigate to the root directory.
+2. Run the following command to start the API:
 
 ```
-pip install -r requirements.txt
+docker-compose up
 ```
 
-### Usage
+This will start the API on http://localhost:5000.
 
-1. Build the docker image
-
-```
-docker build -t selenium-docker-scraper .
-```
-
-2. Run the docker container
+3. To extract text from a PDF, make a `POST` request to `http://localhost:5000/getTextForPDF` with the following JSON data:
 
 ```
-docker run -p 8080:8080 selenium-docker-scraper
+{
+"url": "https://example.com/path/to/pdf"
+}
 ```
 
-3. Access the data by making a request to the given port
+This will return the extracted text from the PDF as a JSON response.
+
+4. To extract text from an HTML page, make a `POST` request to `http://localhost:5000/getTextForURL` with the following JSON data:
 
 ```
-curl http://localhost:8080/test
+{
+"url": "https://example.com"
+}
 ```
 
-### Deploy to Cloud Run
+This will return the extracted text and title from the HTML page as a JSON response.
 
-1. Create a container registry
+## Configuration
 
-```
-gcloud beta auth configure-docker
-```
+The following environment variables can be set to configure the API:
 
-2. Push the image to the container registry
+- `PORT`: The port on which the API should listen. Default is `5000`.
 
-```
-docker tag selenium-docker-scraper gcr.io/<project-id>/selenium-docker-scraper
-docker push gcr.io/<project-id>/selenium-docker-scraper
-```
+## Dependencies
 
-3. Deploy the container to Cloud Run
+The API uses the following dependencies:
 
-```
-gcloud beta run deploy --image gcr.io/<project-id>/selenium-docker-scraper
-```
-
-4. Access the data by making a request to the given URL
-
-```
-curl http://<url>/test
-```
-
-### Note
-
-This project is only meant for educational purposes. Do not use it for any malicious or illegal activities.
-# chat-boba-extract
+- Flask==2.2.2
+- Flask-Cors==3.0.10
+- gunicorn==20.1.0
+- selenium==4.7.2
+- PyPDF2==3.0.1
+- timeout-decorator==0.5.0
+- beautifulsoup4==4.11.2
