@@ -19,10 +19,9 @@ from langchain.text_splitter import CharacterTextSplitter
 import os
 from supabase import create_client, Client
 
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
+url: str = "https://gsaywynqkowtwhnyrehr.supabase.co"
+key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzYXl3eW5xa293dHdobnlyZWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzg3NTUzMDEsImV4cCI6MTk5NDMzMTMwMX0.AFuxpyRtVjW-qcGNxuWbai8zBo9H2EDGT3JlGZKpgzc"
 supabase: Client = create_client(url, key)
-
 
 app = Flask(__name__)
 
