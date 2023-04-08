@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.9
 
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
@@ -14,6 +14,6 @@ COPY . ./
 
 RUN pip install --upgrade pip
 # Install production dependencies.
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app

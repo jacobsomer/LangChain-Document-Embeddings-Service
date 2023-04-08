@@ -25,13 +25,11 @@ def download(url):
                 f.write(chunk)
     return file_name
 
-
 url: str = "https://gsaywynqkowtwhnyrehr.supabase.co"
 key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzYXl3eW5xa293dHdobnlyZWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzg3NTUzMDEsImV4cCI6MTk5NDMzMTMwMX0.AFuxpyRtVjW-qcGNxuWbai8zBo9H2EDGT3JlGZKpgzc"
 supabase: Client = create_client(url, key)
 
 app = Flask(__name__)
-
 
 @app.route("/createEmbeddingForObject", methods=["POST"])
 @cross_origin(supports_credentials=True)
@@ -44,7 +42,10 @@ def createEmbeddingForObjects():
     # download the file if its not a youtube video
     if "youtube" not in url:
         path = download(url)
-    if path.endswith(".pdf"):
+    elif "youtube" in url:
+        loader = YoutubeLoader.from_youtube_channel(
+            url, add_video_info=True)
+    elif path.endswith(".pdf"):
         loader = UnstructuredPDFLoader(path)
     elif path.endswith(".csv"):
         loader = CSVLoader(path)
@@ -54,14 +55,12 @@ def createEmbeddingForObjects():
         loader = UnstructuredWordDocumentLoader(path)
     elif path.endswith(".ppt") or path.endswith(".pptx"):
         loader = UnstructuredPowerPointLoader(path)
-    elif "youtube" in url:
-        loader = YoutubeLoader.from_youtube_url(
-            path, add_video_info=True)
     elif "http" in url:
         loader = SeleniumURLLoader([path])
     else:
         loader = UnstructuredFileLoader(path)
     data = loader.load()
+    print(data)
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
     docs = text_splitter.split_documents(data)
     for chunk in docs:
@@ -78,19 +77,5 @@ def createEmbeddingForObjects():
         }).execute()
     return jsonify({"status": "success"}), 200
 
-
-# @app.route("/query", methods=["POST"])
-# @cross_origin(supports_credentials=True)
-# def query():
-#     data = request.json
-#     query = data["query"]
-#     user = data["userID"]
-
-#     return jsonify(response)
-
-# if __name__ == "__main__":
-#     port = int(os.environ.get('PORT', 5000))
-#     app.run(debug=True, host='0.0.0.0', port=port)
-
-# if __name__ == "__main__":
-#     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
