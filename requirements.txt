@@ -9,3 +9,6 @@ supabase==0.7.1
 langchain==0.0.133
 unstructured==0.5.11
 unstructured-inference==0.3.2
+youtube-transcript-api==0.5.0
+newspaper3k==0.2.8
+beautifulsoup4==4.12.2

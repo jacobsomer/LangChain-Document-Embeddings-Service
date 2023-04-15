@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM --platform=linux/amd64  python:3.9
 
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
