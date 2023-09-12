@@ -1,4 +1,4 @@
-# Chat Boba API
+# LangChain Document Embedding API
 
 This is a Flask API for extracting text from PDF and HTML files. It uses Selenium for scraping dynamic HTML and PyPDF2 for reading PDF files.
 
