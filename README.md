@@ -1,6 +1,6 @@
 # LangChain Document Embedding API
 
-This is a Flask API for extracting text from PDF and HTML files. It uses Selenium for scraping dynamic HTML and PyPDF2 for reading PDF files.
+This is a Flask API for extracting text from PDFs, PowerPoints, XL Spreadsheets, Youtube Channels, and more. 
 
 ## Prerequisites
 
